@@ -11,8 +11,8 @@ def train(model_path: str, dataloader, epochs: int, learn_rate: float):
     model.train()
 
     # 超参数设置
-    loss_function = nn.MSELoss()
-    optimizer = torch.optim.AdamW(model.parameters(), lr=learn_rate)
+    loss_function = nn.MSELoss()  # 损失函数
+    optimizer = torch.optim.AdamW(model.parameters(), lr=learn_rate)  # 优化器
 
     # 训练轮次
     epoch_losses = []  # 每轮平均损失记录
