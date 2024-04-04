@@ -1,25 +1,42 @@
-def training(n_epoch, learn_rate, train, model):  # (训练次数，学习率，训练集，模型)
-    model.train()
-    loss_f = nn.MSELoss()  # MSE损失函数
-    t_batch = len(train)
+import torch
+import numpy as np
+import torch.nn as nn
 
-    optimizer = torch.optim.AdamW(model.parameters(), lr=learn_rate)  # 选取优化器
-    total_loss, best_loss = 0, 10000000
-    for epoch in range(n_epoch):
-        total_loss = 0
-        for i, (inputs, labels) in enumerate(train):
-            inputs = inputs.float().cuda()  # 将数据放入GPU
+
+# 训练模型
+def train(model_path: str, dataloader, epochs: int, learn_rate: float):
+    # 载入模型
+    model = torch.load(model_path).cuda()
+    # 训练模式
+    model.train()
+
+    # 超参数设置
+    loss_function = nn.MSELoss()
+    optimizer = torch.optim.AdamW(model.parameters(), lr=learn_rate)
+
+    # 训练轮次
+    epoch_losses = []  # 每轮平均损失记录
+    for epoch in range(epochs):
+        # 轮次
+        losses = []  # 本轮损失记录
+        for i, (inputs, labels) in enumerate(dataloader):
+            # 加载数据到GPU
+            inputs = inputs.float().cuda()
             labels = labels.float().cuda()
+
             optimizer.zero_grad()  # 梯度清零
-            outputs = model(inputs)
-            # outputs=outputs.squeeze()
-            loss = loss_f(outputs, labels)
-            loss.backward()
-            optimizer.step()
-            total_loss += loss.item()
-        avg_loss = total_loss / (t_batch * 50)
-        print("avg_loss:", avg_loss)
-        if avg_loss < best_loss:
-            best_loss = avg_loss
-            torch.save(model, os.path.join(cwd_path, "ckpt.model"))
-            print("saving model")
+            pred = model(inputs)  # 前向传播
+            loss = loss_function(pred, labels)  # 损失计算
+            loss.backward()  # 反向传播
+            optimizer.step()  # 梯度更新
+
+            # 信息输出
+            losses.append(loss.cpu().detach().numpy())
+
+        # 信息输出
+        losses_mean = np.mean(losses)
+        epoch_losses.append(losses_mean)
+        print("训练轮次 {} : 平均损失 {}".format(epoch, losses_mean))
+
+    # 返回损失
+    return epoch_losses
