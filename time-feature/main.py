@@ -37,7 +37,7 @@ def main():
     create_model_model = False  # 是否创建新模型
     train_mode = False  # 是否训练模型
     test_mode = False  # 是否测试模型
-    convert_onnx_mode = True  # 是否转化为onnx模型
+    convert_onnx_mode = False  # 是否转化为onnx模型
 
     # 数据加载
     data = []
@@ -77,9 +77,10 @@ def main():
 
     # 转换模型
     if convert_onnx_mode:
-        model = torch.load(save_pth_model_path)
-        inputs = torch.randn((1, 5))
-        torch.onnx.export(model.cpu(), inputs, save_onnx_model_path)
+        model = torch.load(save_pth_model_path).cpu()
+        model.eval()
+        inputs = torch.randn(1, 5)
+        torch.onnx.export(model, inputs, save_onnx_model_path)
         netron.start(save_onnx_model_path)  # 可视化
 
     # 测试模型
