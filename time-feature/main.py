@@ -11,6 +11,7 @@ from sklearn.preprocessing import MinMaxScaler
 from model import *
 from train import *
 from test import *
+from predict import *
 
 # 环境载入
 lstm_path = os.path.dirname(__file__)
@@ -86,6 +87,9 @@ def main():
         test(save_pth_model_path, test_dataloader)
 
     # 预测模型
+    x = np.array([0, 289.86500453948975, 3701.5, 17, 59])
+    result = predicate(save_pth_model_path, x)
+    print(result)
 
 
 # 数据集
