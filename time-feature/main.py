@@ -28,11 +28,12 @@ def main():
     hidden_size = 200  # 隐藏层大小
     num_layers = 2  # LSTM堆叠层数
     output_size = 4  # 输出层大小
-    epochs =  # 训练轮次
+    epochs = 10  # 训练轮次
+    learning_rate = 0.001  # 学习率
     save_pth_model_path = os.path.join(output_path, "model.pth")  # 模型保存路径
     create_model_model = True  # 是否创建新模型
     train_mode = True  # 是否训练模型
-    convert_onnx_mode = True  # 是否转化为onnx模型
+    convert_onnx_mode = False  # 是否转化为onnx模型
 
     # 数据加载
     data = []
@@ -61,13 +62,17 @@ def main():
     # 创建模型
     if create_model_model:
         model = LSTM(input_size, hidden_size, num_layers, output_size)
-        model.save(save_pth_model_path)
+        torch.save(model, save_pth_model_path)
 
     # 训练模型
     if train_mode:
-        train(save_pth_model_path, train_dataloader, )
+        train_loss = train(save_pth_model_path, train_dataloader, epochs, learning_rate)
+        # 保存训练轮次损失
+        pd.DataFrame(train_loss, index=None)
 
     # 转换模型
+    if convert_onnx_mode:
+        pass
 
     # 预测模型
 
