@@ -40,5 +40,8 @@ def train(model_path: str, dataloader, epochs: int, learn_rate: float):
         epoch_losses.append(losses_mean)
         print("训练轮次 {} : 平均损失 {}".format(epoch, losses_mean))
 
+    # 保存模型
+    torch.save(model, model_path)
+
     # 返回损失
     return epoch_losses
