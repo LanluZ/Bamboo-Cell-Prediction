@@ -10,6 +10,7 @@ from sklearn.preprocessing import MinMaxScaler
 
 from model import *
 from train import *
+from test import *
 
 # 环境载入
 lstm_path = os.path.dirname(__file__)
@@ -34,6 +35,7 @@ def main():
     save_onnx_model_path = os.path.join(output_path, "model.onnx")  # onnx模型保存路径
     create_model_model = False  # 是否创建新模型
     train_mode = False  # 是否训练模型
+    test_mode = False  # 是否测试模型
     convert_onnx_mode = True  # 是否转化为onnx模型
 
     # 数据加载
@@ -78,6 +80,10 @@ def main():
         inputs = torch.randn((1, 5))
         torch.onnx.export(model.cpu(), inputs, save_onnx_model_path)
         netron.start(save_onnx_model_path)  # 可视化
+
+    # 测试模型
+    if test_mode:
+        test(save_pth_model_path, test_dataloader)
 
     # 预测模型
 
