@@ -68,7 +68,8 @@ def main():
     if train_mode:
         train_loss = train(save_pth_model_path, train_dataloader, epochs, learning_rate)
         # 保存训练轮次损失
-        pd.DataFrame(train_loss, index=None)
+        train_loss = pd.DataFrame(train_loss, index=None)
+        train_loss.to_csv(os.path.join(output_path, "train_loss.csv"), index=False, header=False)
 
     # 转换模型
     if convert_onnx_mode:
