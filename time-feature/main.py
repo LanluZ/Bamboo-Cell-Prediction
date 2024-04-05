@@ -1,5 +1,5 @@
 import os
-import torch
+import netron
 import torch.onnx
 
 import numpy as np
@@ -77,6 +77,7 @@ def main():
         model = torch.load(save_pth_model_path)
         inputs = torch.randn((1, 5))
         torch.onnx.export(model.cpu(), inputs, save_onnx_model_path)
+        netron.start(save_onnx_model_path)  # 可视化
 
     # 预测模型
 
