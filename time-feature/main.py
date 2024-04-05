@@ -30,10 +30,11 @@ def main():
     output_size = 4  # 输出层大小
     epochs = 10  # 训练轮次
     learning_rate = 0.001  # 学习率
-    save_pth_model_path = os.path.join(output_path, "model.pth")  # 模型保存路径
-    create_model_model = True  # 是否创建新模型
-    train_mode = True  # 是否训练模型
-    convert_onnx_mode = False  # 是否转化为onnx模型
+    save_pth_model_path = os.path.join(output_path, "model.pth")  # pth模型保存路径
+    save_onnx_model_path = os.path.join(output_path, "model.onnx")  # onnx模型保存路径
+    create_model_model = False  # 是否创建新模型
+    train_mode = False  # 是否训练模型
+    convert_onnx_mode = True  # 是否转化为onnx模型
 
     # 数据加载
     data = []
@@ -73,7 +74,9 @@ def main():
 
     # 转换模型
     if convert_onnx_mode:
-        pass
+        model = torch.load(save_pth_model_path)
+        inputs = torch.randn((1, 5))
+        torch.onnx.export(model.cpu(), inputs, save_onnx_model_path)
 
     # 预测模型
 
