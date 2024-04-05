@@ -2,8 +2,6 @@ import torch
 import numpy as np
 import torch.nn as nn
 
-from model import *
-
 
 # 训练模型
 def train(model_path: str, dataloader, epochs: int, learn_rate: float):
