@@ -38,7 +38,7 @@ def main():
     save_onnx_model_path = os.path.join(output_path, "model.onnx")  # onnx模型保存路径
     create_model_model = False  # 是否创建新模型
     train_mode = False  # 是否训练模型
-    test_mode = False  # 是否测试模型
+    test_mode = True  # 是否测试模型
     convert_onnx_mode = False  # 是否转化为onnx模型
 
     # 数据加载
@@ -89,7 +89,10 @@ def main():
 
     # 测试模型
     if test_mode:
-        test(save_pth_model_path, test_dataloader)
+        test_loss = test(save_pth_model_path, test_dataloader)
+        test_loss = pd.DataFrame(test_loss, index=None)
+        test_loss.to_csv(os.path.join(output_path, "test_loss.csv"), index=False, header=False)
+
 
     # 预测模型
     x = np.array([0, 289.86500453948975, 3701.5, 17, 59])
