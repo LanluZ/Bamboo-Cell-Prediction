@@ -19,8 +19,10 @@ data_path = os.path.join(lstm_path, "data")
 output_path = os.path.join(lstm_path, "output")
 
 # 归一化模型
-train_scaler = MinMaxScaler()
-test_scaler = MinMaxScaler()
+train_x_scaler = MinMaxScaler()
+train_y_scaler = MinMaxScaler()
+test_x_scaler = MinMaxScaler()
+test_y_scaler = MinMaxScaler()
 
 
 def main():
@@ -54,12 +56,14 @@ def main():
     test_data = data[int(data.shape[0] * 0.7):]
 
     # 归一化
-    train_data = train_scaler.fit_transform(train_data)
-    test_data = test_scaler.fit_transform(test_data)
+    train_x_data = train_x_scaler.fit_transform(train_data[:, :5])
+    train_y_data = train_y_scaler.fit_transform(train_data[:, 5:])
+    test_x_data = test_x_scaler.fit_transform(test_data[:, :5])
+    test_y_data = test_y_scaler.fit_transform(test_data[:, 5:])
 
     # 创建数据集
-    train_dataset = lstmDataset(train_data)
-    test_dataset = lstmDataset(test_data)
+    train_dataset = lstmDataset(train_x_data, train_y_data)
+    test_dataset = lstmDataset(test_x_data, test_y_data)
     train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, drop_last=False)
     test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, drop_last=False)
 
@@ -89,15 +93,15 @@ def main():
 
     # 预测模型
     x = np.array([0, 289.86500453948975, 3701.5, 17, 59])
-    result = predicate(save_pth_model_path, x)
+    result = predicate(save_pth_model_path, x, train_x_scaler, train_y_scaler)
     print(result)
 
 
 # 数据集
 class lstmDataset(Dataset):
-    def __init__(self, data: np.ndarray):
-        self.data_x = data[:, :5]
-        self.data_y = data[:, 5:]
+    def __init__(self, data_x: np.ndarray, data_y: np.ndarray):
+        self.data_x = data_x
+        self.data_y = data_y
 
     def __getitem__(self, item):
         return self.data_x[item], self.data_y[item]
