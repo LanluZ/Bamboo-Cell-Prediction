@@ -11,3 +11,4 @@ class DNN(nn.Module):
         x = self.layer1(x)
         x = nn.LeakyReLU(0.05)
         x = self.layer2(x)
+        return x
