@@ -6,12 +6,12 @@ class WinGUI(Tk):
     def __init__(self):
         super().__init__()
         self.__win()
-        self.tk_select_box_lupl6jkf = self.__tk_select_box_lupl6jkf(self)
-        self.tk_button_luplah5d = self.__tk_button_luplah5d(self)
-        self.tk_input_luplb537 = self.__tk_input_luplb537(self)
-        self.tk_label_luplczy7 = self.__tk_label_luplczy7(self)
-        self.tk_label_luplm8kp = self.__tk_label_luplm8kp(self)
-        self.tk_text_luplnow9 = self.__tk_text_luplnow9(self)
+        self.tk_select_box_1 = self.__tk_select_box_1(self)
+        self.tk_button_1 = self.__tk_button_1(self)
+        self.tk_input_1 = self.__tk_input_1(self)
+        self.tk_label_1 = self.__tk_label_1(self)
+        self.tk_label_2 = self.__tk_label_2(self)
+        self.tk_text_1 = self.__tk_text_1(self)
 
     def __win(self):
         self.title("Model Perdictor")
@@ -64,33 +64,33 @@ class WinGUI(Tk):
             self.h_scrollbar(hbar, widget, x, y, w, h, pw, ph)
         self.scrollbar_autohide(vbar, hbar, widget)
 
-    def __tk_select_box_lupl6jkf(self, parent):
+    def __tk_select_box_1(self, parent):
         cb = Combobox(parent, state="readonly", )
         cb['values'] = ("time_feature", "feature_time")
         cb.place(x=20, y=10, width=150, height=30)
         return cb
 
-    def __tk_button_luplah5d(self, parent):
+    def __tk_button_1(self, parent):
         btn = Button(parent, text="预测", takefocus=False, )
         btn.place(x=20, y=110, width=150, height=35)
         return btn
 
-    def __tk_input_luplb537(self, parent):
+    def __tk_input_1(self, parent):
         ipt = Entry(parent, )
         ipt.place(x=20, y=60, width=150, height=30)
         return ipt
 
-    def __tk_label_luplczy7(self, parent):
+    def __tk_label_1(self, parent):
         label = Label(parent, text="模型", anchor="center", )
         label.place(x=200, y=10, width=100, height=30)
         return label
 
-    def __tk_label_luplm8kp(self, parent):
+    def __tk_label_2(self, parent):
         label = Label(parent, text="起始参数", anchor="center", )
         label.place(x=200, y=60, width=100, height=30)
         return label
 
-    def __tk_text_luplnow9(self, parent):
+    def __tk_text_1(self, parent):
         text = Text(parent)
         text.place(x=200, y=110, width=101, height=31)
         return text
@@ -102,10 +102,10 @@ class Win(WinGUI):
         super().__init__()
         self.__event_bind()
         self.__style_config()
+        controller.init(self)
 
     def __event_bind(self):
-        self.tk_button_luplah5d.bind('<Button>', self.ctl.button_click_mouse)
-        print(1)
+        self.tk_button_1.bind('<Button>', self.ctl.button_click_mouse)
         pass
 
     def __style_config(self):

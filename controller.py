@@ -1,10 +1,8 @@
-from tkinter.messagebox import showinfo
-
 # 导入UI 将 Controller 的属性 ui 类型设置成 Win
-from ui import Win
+import os
+import ui
 
-from time_feature import main
-from feature_time import main
+from ui import Win
 
 
 class Controller:
@@ -14,5 +12,8 @@ class Controller:
     def __init__(self):
         pass
 
+    def init(self, view):
+        self.view = view
+
     def button_click_mouse(self, *args):
-        print(1)
+        print(self.view.tk_select_box_1.get()) # 获取选项框
