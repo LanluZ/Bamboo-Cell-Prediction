@@ -102,7 +102,6 @@ class Win(WinGUI):
         super().__init__()
         self.__event_bind()
         self.__style_config()
-        self.ctl.init(self)
 
     def __event_bind(self):
         self.tk_button_luplah5d.bind('<Button>', self.ctl.button_click_mouse)
