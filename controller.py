@@ -3,7 +3,7 @@ from tkinter.messagebox import showinfo
 # 导入UI 将 Controller 的属性 ui 类型设置成 Win
 from ui import Win
 
-import
+from time_feature import main
 
 
 class Controller:

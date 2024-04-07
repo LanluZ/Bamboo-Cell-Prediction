@@ -66,7 +66,7 @@ class WinGUI(Tk):
 
     def __tk_select_box_lupl6jkf(self, parent):
         cb = Combobox(parent, state="readonly", )
-        cb['values'] = ("time-feature", "feature-time")
+        cb['values'] = ("time_feature", "feature_time")
         cb.place(x=20, y=10, width=150, height=30)
         return cb
 
