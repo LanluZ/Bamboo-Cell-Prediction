@@ -4,6 +4,7 @@ from tkinter.messagebox import showinfo
 from ui import Win
 
 from time_feature import main
+from feature_time import main
 
 
 class Controller:
