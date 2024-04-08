@@ -1,4 +1,6 @@
 import os
+import sys
+
 import netron
 import torch.onnx
 
@@ -25,7 +27,7 @@ test_x_scaler = MinMaxScaler()
 test_y_scaler = MinMaxScaler()
 
 
-def main():
+def main(argv):
     # 参数设定
     batch_size = 1  # batch大小
     input_size = 5  # 输入层大小
@@ -93,11 +95,12 @@ def main():
         test_loss = pd.DataFrame(test_loss, index=None)
         test_loss.to_csv(os.path.join(output_path, "test_loss.csv"), index=False, header=False)
 
-
     # 预测模型
-    x = np.array([0, 289.86500453948975, 3701.5, 17, 59])
+    x = np.array([0, 289.86500453948975, 3701.5, 17, 59])  # 默认测试参数
+    if len(argv) == 5:  # 如果有输入参数则替换默认参数
+        x[1:] = np.array(argv[1:])
     result = predicate(save_pth_model_path, x, train_x_scaler, train_y_scaler)
-    print(result)
+    print(result)  # 预测结果输出
 
 
 # 数据集
@@ -114,4 +117,4 @@ class lstmDataset(Dataset):
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv)
