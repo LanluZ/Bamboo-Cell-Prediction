@@ -1,6 +1,5 @@
 # 导入UI 将 Controller 的属性 ui 类型设置成 Win
 import os
-import ui
 
 from ui import Win
 
