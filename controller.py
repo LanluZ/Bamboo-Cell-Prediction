@@ -16,4 +16,11 @@ class Controller:
         self.view = view
 
     def button_click_mouse(self, *args):
-        print(self.view.tk_select_box_1.get()) # 获取选项框
+        gui_path = os.path.dirname(__file__)
+        project_path = self.view.tk_select_box_1.get()  # 获取选项框内容
+
+        main_path = os.path.join(gui_path, project_path, "main.py")
+
+        # 输入检查
+        os.system(f"python {main_path}")
+
