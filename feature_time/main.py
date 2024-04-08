@@ -1,4 +1,6 @@
 import os
+import sys
+
 import netron
 import torch
 
@@ -25,7 +27,7 @@ test_x_scaler = MinMaxScaler()
 test_y_scaler = MinMaxScaler()
 
 
-def main():
+def main(argv):
     # 参数设定
     input_size = 7  # 输入层大小
     hidden_size = 4  # 隐藏层大小
@@ -37,7 +39,7 @@ def main():
     save_onnx_model_path = os.path.join(output_path, "model.onnx")  # onnx模型保存路径
     create_model_model = False  # 是否创建新模型
     train_mode = False  # 是否训练模型
-    test_mode = True  # 是否测试模型
+    test_mode = False  # 是否测试模型
     convert_onnx_mode = False  # 是否转化为onnx模型
 
     # 数据加载
@@ -95,6 +97,16 @@ def main():
         test_loss = pd.DataFrame(test_loss, index=None)
         test_loss.to_csv(os.path.join(output_path, "test_loss.csv"), index=False, header=False)
 
+    # 预测模型
+    x = np.array(
+        [56.28427052497864, 219.0, 7.0, 9.0, 0.7777777777777778, 0.7684210526315789, 0.8687201504405094])  # 默认测试参数
+    if len(argv) == 8:  # 如果有输入参数则替换默认参数
+        x = np.array(argv[1:])
+    model = torch.load(save_pth_model_path)
+    result = model(torch.tensor(train_x_scaler.transform(x.reshape((1, 7)))).float().cuda())
+    result = train_y_scaler.inverse_transform(result.cpu().detach().numpy())
+    print(result)  # 预测结果输出
+
 
 class dnnDataset(Dataset):
     def __init__(self, data_x, data_y):
@@ -109,4 +121,4 @@ class dnnDataset(Dataset):
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv)
