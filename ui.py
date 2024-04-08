@@ -11,7 +11,6 @@ class WinGUI(Tk):
         self.tk_input_1 = self.__tk_input_1(self)
         self.tk_label_1 = self.__tk_label_1(self)
         self.tk_label_2 = self.__tk_label_2(self)
-        self.tk_text_1 = self.__tk_text_1(self)
 
     def __win(self):
         self.title("Model Perdictor")
@@ -89,11 +88,6 @@ class WinGUI(Tk):
         label = Label(parent, text="起始参数", anchor="center", )
         label.place(x=200, y=60, width=100, height=30)
         return label
-
-    def __tk_text_1(self, parent):
-        text = Text(parent)
-        text.place(x=200, y=110, width=101, height=31)
-        return text
 
 
 class Win(WinGUI):
