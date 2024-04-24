@@ -1,6 +1,6 @@
 import os
 import sys
-
+import joblib
 import netron
 import torch.onnx
 
@@ -41,7 +41,7 @@ def main(argv):
     create_model_model = False  # 是否创建新模型
     train_mode = False  # 是否训练模型
     test_mode = False  # 是否测试模型
-    convert_onnx_mode = True  # 是否转化为onnx模型
+    convert_onnx_mode = False  # 是否转化为onnx模型
 
     # 数据加载
     data = []
@@ -69,6 +69,9 @@ def main(argv):
     train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, drop_last=False)
     test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, drop_last=False)
 
+    joblib.dump(train_x_scaler, os.path.join(output_path, "x.scaler"))
+    joblib.dump(train_y_scaler, os.path.join(output_path, "y.scaler"))
+
     # 创建模型
     if create_model_model:
         model = LSTM(input_size, hidden_size, num_layers, output_size)
@@ -80,6 +83,7 @@ def main(argv):
         # 保存训练轮次损失
         train_loss = pd.DataFrame(train_loss, index=None)
         train_loss.to_csv(os.path.join(output_path, "train_loss.csv"), index=False, header=False)
+        # 保存训练集归一化模型
 
     # 转换模型
     if convert_onnx_mode:
