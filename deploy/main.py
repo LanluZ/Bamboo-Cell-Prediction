@@ -19,7 +19,7 @@ def main(args):
 
     results = session.run(None, session_inputs)  # 模型推理
 
-    results = y_scaler.inverse_transform(results)  # 反归一化
+    results = y_scaler.inverse_transform(results[0])  # 反归一化
 
     print(results[0])
 
