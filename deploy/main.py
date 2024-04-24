@@ -13,7 +13,7 @@ def main(args):
     session = onnxruntime.InferenceSession(onnx_model_path)
     # 载入训练集归一化模型
     x_scaler, y_scaler = 0, 0
-    with open('scaler.pkl', 'rb') as f:
+    with open('x_scaler.pkl', 'rb') as f:
         x_scaler = pickle.load(f)
     with open('y_scaler.pkl', 'rb') as f:
         y_scaler = pickle.load(f)
