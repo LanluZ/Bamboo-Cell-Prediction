@@ -13,9 +13,13 @@ def main(args):
     x_scaler = joblib.load('x.scaler')
     y_scaler = joblib.load('y.scaler')
 
-    args_inputs = np.array(args).astype(np.float32)  # 格式转换
-    session_inputs = {session.get_inputs()[0].name: [args_inputs]}  # 模型输入
+    args_inputs = np.array(args).astype(np.float32).reshape(1, -1)  # 格式转换
+    args_inputs = x_scaler.transform(args_inputs)  # 归一化
+    session_inputs = {session.get_inputs()[0].name: args_inputs}  # 模型输入
+
     results = session.run(None, session_inputs)  # 模型推理
+
+    results = y_scaler.inverse_transform(results)  # 反归一化
 
     print(results[0])
 
