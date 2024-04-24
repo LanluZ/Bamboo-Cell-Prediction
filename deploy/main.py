@@ -1,7 +1,10 @@
 import sys
 import onnxruntime
+import joblib
 
 import numpy as np
+
+from sklearn.preprocessing import MinMaxScaler
 
 
 def main(args):
@@ -9,7 +12,9 @@ def main(args):
     # 载入模型加载器
     session = onnxruntime.InferenceSession(onnx_model_path)
     # 载入训练集归一化模型
-    x_scaler, y_scaler = 0, 0
+    x_scaler = joblib.load("x_scaler.pkl")
+    y_scaler = joblib.load("y_scaler.pkl")
+
     args_inputs = np.array(args).astype(np.float32).reshape(1, -1)  # 格式转换
     args_inputs = x_scaler.transform(args_inputs)  # 归一化
     session_inputs = {session.get_inputs()[0].name: args_inputs}  # 模型输入
