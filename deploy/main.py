@@ -1,5 +1,5 @@
+import pickle
 import sys
-import joblib
 import onnxruntime
 
 import numpy as np
@@ -12,8 +12,11 @@ def main(args):
     # 载入模型加载器
     session = onnxruntime.InferenceSession(onnx_model_path)
     # 载入训练集归一化模型
-    x_scaler = joblib.load('')
-    y_scaler = joblib.load('')
+    x_scaler, y_scaler = 0, 0
+    with open('scaler.pkl', 'rb') as f:
+        x_scaler = pickle.load(f)
+    with open('y_scaler.pkl', 'rb') as f:
+        y_scaler = pickle.load(f)
 
     args_inputs = np.array(args).astype(np.float32).reshape(1, -1)  # 格式转换
     args_inputs = x_scaler.transform(args_inputs)  # 归一化
