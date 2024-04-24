@@ -1,6 +1,6 @@
 import os
+import pickle
 import sys
-import joblib
 import netron
 import torch.onnx
 
@@ -69,8 +69,10 @@ def main(argv):
     train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, drop_last=False)
     test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, drop_last=False)
 
-    joblib.dump(train_x_scaler, os.path.join(output_path, "x.scaler"))
-    joblib.dump(train_y_scaler, os.path.join(output_path, "y.scaler"))
+    with open(os.path.join(output_path, "x_scaler.pkl"), 'wb') as f:
+        pickle.dump(train_x_scaler, f)
+    with open(os.path.join(output_path, "y_scaler.pkl"), 'wb') as f:
+        pickle.dump(train_y_scaler, f)
 
     # 创建模型
     if create_model_model:
