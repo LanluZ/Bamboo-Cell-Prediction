@@ -1,4 +1,3 @@
-import pickle
 import sys
 import onnxruntime
 
@@ -13,11 +12,6 @@ def main(args):
     session = onnxruntime.InferenceSession(onnx_model_path)
     # 载入训练集归一化模型
     x_scaler, y_scaler = 0, 0
-    with open('x_scaler.pkl', 'rb') as f:
-        x_scaler = pickle.load(f)
-    with open('y_scaler.pkl', 'rb') as f:
-        y_scaler = pickle.load(f)
-
     args_inputs = np.array(args).astype(np.float32).reshape(1, -1)  # 格式转换
     args_inputs = x_scaler.transform(args_inputs)  # 归一化
     session_inputs = {session.get_inputs()[0].name: args_inputs}  # 模型输入
