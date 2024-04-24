@@ -3,8 +3,6 @@ import onnxruntime
 
 import numpy as np
 
-from sklearn.preprocessing import MinMaxScaler
-
 
 def main(args):
     onnx_model_path = "model.onnx"  # onnx模型路径
