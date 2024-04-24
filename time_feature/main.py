@@ -41,7 +41,7 @@ def main(argv):
     create_model_model = False  # 是否创建新模型
     train_mode = False  # 是否训练模型
     test_mode = False  # 是否测试模型
-    convert_onnx_mode = False  # 是否转化为onnx模型
+    convert_onnx_mode = True  # 是否转化为onnx模型
 
     # 数据加载
     data = []
