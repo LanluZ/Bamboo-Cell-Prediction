@@ -4,7 +4,7 @@ import sys
 import numpy as np
 
 from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QApplication, QPushButton, QPlainTextEdit, QTextEdit
+from PySide6.QtWidgets import QApplication, QPushButton, QLineEdit, QTextEdit
 
 import func.model
 
@@ -25,7 +25,7 @@ class GUI:
         # 控件注释
         self.ui = loader.load(os.path.join(path, 'ui', 'gui.ui'))
         self.calculate_button: QPushButton = self.ui.calculate_button
-        self.start_data: QPlainTextEdit = self.ui.start_data
+        self.start_data: QLineEdit = self.ui.start_data
         self.output_data: QTextEdit = self.ui.output_data
 
         self.calculate_button.clicked.connect(self.calculate_button_clicked)
@@ -35,7 +35,7 @@ class GUI:
 
     def calculate_button_clicked(self):
         # 字符串解析
-        inputs = self.start_data.toPlainText()
+        inputs = self.start_data.text()
         inputs = [float(x) for x in inputs.split(',')]
         inputs = np.array([inputs]).astype(np.float32)
 
