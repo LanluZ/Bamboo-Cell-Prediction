@@ -14,9 +14,11 @@ loader = QUiLoader()
 class GUI:
     def __init__(self):
         self.ui = loader.load(os.path.join(path, 'ui', 'gui.ui'))
-        self.ui.show()
 
 
 if __name__ == '__main__':
     # 创建应用
     app = QApplication([])
+    gui = GUI()
+    gui.ui.show()
+    app.exec()
