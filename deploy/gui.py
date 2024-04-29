@@ -35,15 +35,19 @@ class GUI:
 
     def calculate_button_clicked(self):
         # 字符串解析
-        inputs = self.start_data.text()
-        inputs = [float(x) for x in inputs.split(',')]
-        inputs = np.array([inputs]).astype(np.float32)
+        try:
+            inputs = self.start_data.text()
+            inputs = [float(x) for x in inputs.split(',')]
+            inputs = np.array([inputs]).astype(np.float32)
 
-        # 载入模型计算
-        result = self.model.predict(inputs)
+            # 载入模型计算
+            result = self.model.predict(inputs)
 
-        # 结果显示
-        self.output_data.setText(str(result[0]))
+            # 结果显示
+            self.output_data.setText(str(result[0]))
+
+        except ValueError:
+            self.output_data.setText('数据格式有误')
 
 
 if __name__ == '__main__':
