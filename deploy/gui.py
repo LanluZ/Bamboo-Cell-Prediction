@@ -36,7 +36,8 @@ class GUI:
         # 载入模型计算
         result = self.model.predict(inputs)
 
-        print(result)
+        # 结果显示
+        self.ui.output_data.setText(str(result[0]))
 
 
 if __name__ == '__main__':
