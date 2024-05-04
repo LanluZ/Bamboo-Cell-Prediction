@@ -2,6 +2,8 @@ import torch
 
 import numpy as np
 
+from sklearn.metrics import accuracy_score, recall_score, f1_score
+
 
 def test(model_path: str, dataloader):
     def MAELoss(x1: np.ndarray, x2: np.ndarray):
@@ -14,6 +16,8 @@ def test(model_path: str, dataloader):
     model.eval()
 
     losses = []
+    labels_list = []
+    predicts_list = []
     for i, (inputs, labels) in enumerate(dataloader):
         # 加载数据到GPU
         inputs = inputs.float().cuda()
@@ -21,6 +25,10 @@ def test(model_path: str, dataloader):
 
         pred = model(inputs)
         loss = loss_function(pred.cpu().detach().numpy(), labels.cpu().detach().numpy())
+
+        # 存储标签值和预测值
+        labels_list.append(labels.cpu().detach().numpy())
+        predicts_list.append(pred.cpu().detach().numpy())
 
         losses.append(loss)
 
