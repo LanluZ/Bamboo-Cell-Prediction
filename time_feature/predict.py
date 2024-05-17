@@ -8,7 +8,7 @@ def predicate(model_path, x: np.ndarray, scaler_x, scaler_y):
     model = torch.load(model_path)
     # 评估模式
     model.eval()
-    device = torch.device('cpu')
+    device = torch.device('cuda:0')
     model.to(device)
     # 格式对齐
     x = x.reshape(1, 5)
