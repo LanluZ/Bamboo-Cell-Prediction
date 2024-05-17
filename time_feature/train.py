@@ -7,8 +7,6 @@ import torch.nn as nn
 def train(model_path: str, train_dataloader, val_dataloader, epochs: int, learn_rate: float):
     # 载入模型
     model = torch.load(model_path).cuda()
-    # 训练模式
-    model.train()
 
     # 超参数设置
     loss_function = nn.MSELoss()  # 损失函数
@@ -19,6 +17,7 @@ def train(model_path: str, train_dataloader, val_dataloader, epochs: int, learn_
     epoch_val_losses = []  # 每轮平均损失记录
     for epoch in range(epochs):
         # 轮次
+        model.train()
         losses = []  # 本轮损失记录
         for i, (inputs, labels) in enumerate(train_dataloader):
             # 加载数据到GPU
@@ -53,6 +52,7 @@ def train(model_path: str, train_dataloader, val_dataloader, epochs: int, learn_
         epoch_val_losses.append(val_losses_mean)
         print("训练轮次 {} : 平均损失 {}".format(epoch, train_losses_mean))
         print("验证轮次 {} : 平均损失 {}".format(epoch, val_losses_mean))
+        print("轮次 {} : 损失差 {}".format(epoch, train_losses_mean - val_losses_mean))
 
         # 保存效果最好模型
         if val_losses_mean <= min(epoch_val_losses):
