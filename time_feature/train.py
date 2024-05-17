@@ -59,4 +59,4 @@ def train(model_path: str, train_dataloader, val_dataloader, epochs: int, learn_
             torch.save(model, model_path)
 
     # 返回损失
-    return epoch_train_losses, epoch_train_losses
+    return epoch_train_losses, epoch_val_losses
