@@ -56,7 +56,7 @@ def train(model_path: str, train_dataloader, val_dataloader, epochs: int, learn_
 
         # 保存效果最好模型
         if val_losses_mean <= min(epoch_val_losses):
-            torch.save(model, 'model.pt')
+            torch.save(model, model_path)
 
     # 返回损失
     return epoch_train_losses, epoch_train_losses

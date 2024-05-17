@@ -38,8 +38,8 @@ def main(argv):
     learning_rate = 0.001  # 学习率
     save_pth_model_path = os.path.join(output_path, "model.pth")  # pth模型保存路径
     save_onnx_model_path = os.path.join(output_path, "model.onnx")  # onnx模型保存路径
-    create_model_model = True  # 是否创建新模型
-    train_mode = True  # 是否训练模型
+    create_model_model = False  # 是否创建新模型
+    train_mode = False  # 是否训练模型
     test_mode = True  # 是否测试模型
     convert_onnx_mode = True  # 是否转化为onnx模型
 
