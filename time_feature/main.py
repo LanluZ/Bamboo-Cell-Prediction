@@ -1,4 +1,6 @@
 import os
+import random
+
 import joblib
 import sys
 import netron
@@ -6,6 +8,7 @@ import torch.onnx
 
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from torch.utils.data import DataLoader, Dataset
 from sklearn.preprocessing import MinMaxScaler
@@ -36,6 +39,7 @@ def main(argv):
     output_size = 4  # 输出层大小
     epochs = 10  # 训练轮次
     learning_rate = 0.001  # 学习率
+    seed = torch.random.initial_seed()  # 随机数种子
     save_pth_model_path = os.path.join(output_path, "model.pth")  # pth模型保存路径
     save_onnx_model_path = os.path.join(output_path, "model.onnx")  # onnx模型保存路径
     create_model_model = False  # 是否创建新模型
@@ -55,18 +59,23 @@ def main(argv):
 
     # 数据分类
     train_data = data[:int(data.shape[0] * 0.7)]
-    test_data = data[int(data.shape[0] * 0.7):]
+    valid_data = data[int(data.shape[0] * 0.7):int(data.shape[0] * 0.9)]
+    test_data = data[int(data.shape[0] * 0.9):]
 
     # 归一化
     train_x_data = train_x_scaler.fit_transform(train_data[:, :5])
     train_y_data = train_y_scaler.fit_transform(train_data[:, 5:])
+    valid_x_data = test_x_scaler.fit_transform(valid_data[:, :5])
+    valid_y_data = test_y_scaler.fit_transform(valid_data[:, 5:])
     test_x_data = test_x_scaler.fit_transform(test_data[:, :5])
     test_y_data = test_y_scaler.fit_transform(test_data[:, 5:])
 
     # 创建数据集
     train_dataset = lstmDataset(train_x_data, train_y_data)
+    valid_dataset = lstmDataset(valid_x_data, valid_y_data)
     test_dataset = lstmDataset(test_x_data, test_y_data)
     train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, drop_last=False)
+    valid_dataloader = DataLoader(valid_dataset, batch_size=batch_size, shuffle=True, drop_last=False)
     test_dataloader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, drop_last=False)
 
     joblib.dump(train_x_scaler, os.path.join(output_path, "x_scaler.pkl"))
@@ -74,19 +83,33 @@ def main(argv):
 
     # 创建模型
     if create_model_model:
+        torch.manual_seed(seed)
+        # 写出随机数
+        with open(os.path.join(output_path, "seed.txt"), 'w') as f:
+            f.write(str(seed))
         model = LSTM(input_size, hidden_size, num_layers, output_size)
         torch.save(model, save_pth_model_path)
 
     # 训练模型
     if train_mode:
-        train_loss, val_loss = train(save_pth_model_path, train_dataloader, test_dataloader, epochs, learning_rate)
+        train_loss, val_loss = train(save_pth_model_path, train_dataloader, valid_dataloader, epochs, learning_rate)
         # 保存训练轮次损失
         train_loss = pd.DataFrame(train_loss, index=None)
         train_loss.to_csv(os.path.join(output_path, "train_loss.csv"), index=False, header=False)
         val_loss = pd.DataFrame(val_loss, index=None)
         val_loss.to_csv(os.path.join(output_path, "val_loss.csv"), index=False, header=False)
-        # 保存训练集归一化模型
-        joblib.dump(train_x_scaler, os.path.join(output_path, "x_scaler.pkl"))
+        # 读入数据
+        train_loss = pd.read_csv(os.path.join(output_path, "train_loss.csv"), header=None)
+        val_loss = pd.read_csv(os.path.join(output_path, "val_loss.csv"), header=None)
+        # 图像绘制
+        plt.figure()
+        plt.title('Loss')
+        plt.xlabel('Epochs')
+        plt.ylabel('MES Loss')
+        plt.plot(train_loss, 'r', label='Train Loss')
+        plt.plot(val_loss, 'b', label='Val Loss')
+        plt.legend(loc='upper right')
+        plt.savefig(os.path.join(output_path, "both_loss.png"))
 
     # 转换模型
     if convert_onnx_mode:
@@ -94,7 +117,7 @@ def main(argv):
         model.eval()
         inputs = torch.randn(1, 5)
         torch.onnx.export(model, inputs, save_onnx_model_path)
-        netron.start(save_onnx_model_path)  # 可视化
+        # netron.start(save_onnx_model_path)  # 可视化
 
     # 测试模型
     if test_mode:
@@ -124,4 +147,12 @@ class lstmDataset(Dataset):
 
 
 if __name__ == '__main__':
-    main(sys.argv)
+    # 多次训练
+    i = 0
+    while True:
+        # 创建文件夹
+        output_path = os.path.join(lstm_path, "output", str(i))
+        i += 1
+        if not os.path.exists(output_path):
+            os.mkdir(output_path)
+        main(sys.argv)
