@@ -39,7 +39,7 @@ def main(argv):
     output_size = 4  # 输出层大小
     epochs = 10  # 训练轮次
     learning_rate = 0.001  # 学习率
-    seed = 4099416375  # 随机数种子
+    seed = random.randint(0, 2 ** 32)  # 随机数种子
     save_pth_model_path = os.path.join(output_path, "model.pth")  # pth模型保存路径
     save_onnx_model_path = os.path.join(output_path, "model.onnx")  # onnx模型保存路径
     create_model_model = True  # 是否创建新模型
