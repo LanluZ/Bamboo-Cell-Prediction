@@ -39,13 +39,13 @@ def main(argv):
     output_size = 4  # 输出层大小
     epochs = 10  # 训练轮次
     learning_rate = 0.001  # 学习率
-    seed = torch.random.initial_seed()  # 随机数种子
+    seed = 4099416375  # 随机数种子
     save_pth_model_path = os.path.join(output_path, "model.pth")  # pth模型保存路径
     save_onnx_model_path = os.path.join(output_path, "model.onnx")  # onnx模型保存路径
-    create_model_model = False  # 是否创建新模型
-    train_mode = False  # 是否训练模型
-    test_mode = False  # 是否测试模型
-    convert_onnx_mode = False  # 是否转化为onnx模型
+    create_model_model = True  # 是否创建新模型
+    train_mode = True  # 是否训练模型
+    test_mode = True  # 是否测试模型
+    convert_onnx_mode = True  # 是否转化为onnx模型
 
     # 数据加载
     data = []
@@ -117,7 +117,7 @@ def main(argv):
         model.eval()
         inputs = torch.randn(1, 5)
         torch.onnx.export(model, inputs, save_onnx_model_path)
-        # netron.start(save_onnx_model_path)  # 可视化
+        netron.start(save_onnx_model_path)  # 可视化
 
     # 测试模型
     if test_mode:
@@ -148,11 +148,10 @@ class lstmDataset(Dataset):
 
 if __name__ == '__main__':
     # 多次训练
-    i = 0
-    while True:
+    for index in range(1):
         # 创建文件夹
-        output_path = os.path.join(lstm_path, "output", str(i))
-        i += 1
+        output_path = os.path.join(lstm_path, "output", str(index))
+        index += 1
         if not os.path.exists(output_path):
             os.mkdir(output_path)
         main(sys.argv)
