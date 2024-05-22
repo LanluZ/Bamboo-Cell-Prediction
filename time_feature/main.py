@@ -42,10 +42,10 @@ def main(argv):
     seed = random.randint(0, 2 ** 32)  # 随机数种子
     save_pth_model_path = os.path.join(output_path, "model.pth")  # pth模型保存路径
     save_onnx_model_path = os.path.join(output_path, "model.onnx")  # onnx模型保存路径
-    create_model_model = True  # 是否创建新模型
-    train_mode = True  # 是否训练模型
-    test_mode = True  # 是否测试模型
-    convert_onnx_mode = True  # 是否转化为onnx模型
+    create_model_model = False  # 是否创建新模型
+    train_mode = False  # 是否训练模型
+    test_mode = False  # 是否测试模型
+    convert_onnx_mode = False  # 是否转化为onnx模型
 
     # 数据加载
     data = []
@@ -124,13 +124,6 @@ def main(argv):
         test_loss = test(save_pth_model_path, test_dataloader)
         test_loss = pd.DataFrame(test_loss, index=None)
         test_loss.to_csv(os.path.join(output_path, "test_loss.csv"), index=False, header=False)
-
-    # 预测模型
-    x = np.array([0, 289.86500453948975, 3701.5, 17, 59])  # 默认测试参数
-    if len(argv) == 5:  # 如果有输入参数则替换默认参数
-        x[1:] = np.array(argv[1:])
-    result = predicate(save_pth_model_path, x, train_x_scaler, train_y_scaler)
-    print(result)  # 预测结果输出
 
 
 # 数据集
