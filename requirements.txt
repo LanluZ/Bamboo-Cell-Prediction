@@ -1,3 +1,4 @@
+accelerate==0.30.1
 altgraph==0.17.4
 anyio==4.3.0
 astor==0.8.1
@@ -11,6 +12,7 @@ coloredlogs==15.0.1
 contourpy==1.2.1
 cycler==0.12.1
 decorator==5.1.1
+diffusers==0.27.2
 et-xmlfile==1.1.0
 filelock @ file:///C:/b/abs_f2gie28u58/croot/filelock_1700591233643/work
 flatbuffers==24.3.25
@@ -21,8 +23,10 @@ gmpy2 @ file:///C:/ci_311/gmpy2_1677743390134/work
 h11==0.14.0
 httpcore==1.0.5
 httpx==0.27.0
+huggingface-hub==0.23.1
 humanfriendly==10.0
 idna @ file:///C:/b/abs_aad84bnnw5/croot/idna_1714398896795/work
+importlib_metadata==7.1.0
 intel-openmp==2021.4.0
 iso8601==2.1.0
 Jinja2 @ file:///C:/b/abs_f7x5a8op2h/croot/jinja2_1706733672594/work
@@ -47,6 +51,7 @@ openpyxl==3.1.2
 opt-einsum==3.3.0
 packaging @ file:///C:/b/abs_cc1h2xfosn/croot/packaging_1710807447479/work
 pandas @ file:///C:/b/abs_3awk0iw2ab/croot/pandas_1709590545218/work/dist/pandas-2.2.1-cp311-cp311-win_amd64.whl#sha256=d6c6b110e8e5c0a299efcaa9935f84d8ad7abc5511d6d8ab94cc6bd137d93ff3
+patsy==0.5.6
 pdf2image==1.17.0
 pefile==2023.2.7
 pillow @ file:///C:/b/abs_95ls_qh4c2/croot/pillow_1714398870615/work
@@ -57,6 +62,7 @@ pyinstaller==6.6.0
 pyinstaller-hooks-contrib==2024.5
 pyparsing==3.1.2
 pyreadline3==3.4.1
+pyserial==3.5
 PySide6==6.7.0
 PySide6_Addons==6.7.0
 PySide6_Essentials==6.7.0
@@ -65,25 +71,30 @@ python-dateutil @ file:///C:/b/abs_a6ui0hquwx/croot/python-dateutil_171510884398
 pytz @ file:///C:/b/abs_6ap4tsz1ox/croot/pytz_1713974360290/work
 pywin32-ctypes==0.2.2
 PyYAML @ file:///C:/b/abs_782o3mbw7z/croot/pyyaml_1698096085010/work
+regex==2024.5.15
 requests @ file:///C:/b/abs_474vaa3x9e/croot/requests_1707355619957/work
+safetensors==0.4.3
 scikit-learn==1.4.2
 scipy==1.13.0
 seaborn==0.13.2
-serial==0.0.97
 shiboken6==6.7.0
 six @ file:///tmp/build/80754af9/six_1644875935023/work
 sniffio==1.3.1
 soupsieve==2.5
+statsmodels==0.14.2
 sympy @ file:///C:/b/abs_82njkonm7f/croot/sympy_1701397685028/work
 tbb==2021.12.0
 thop==0.1.1.post2209072238
 threadpoolctl==3.5.0
+tokenizers==0.19.1
 torch==2.3.0
 torchaudio==2.3.0
 torchvision==0.18.0
 tqdm==4.66.4
+transformers==4.41.1
 typing_extensions @ file:///C:/b/abs_72cdotwc_6/croot/typing_extensions_1705599364138/work
 tzdata @ file:///croot/python-tzdata_1690578112552/work
 ultralytics==8.2.10
 urllib3 @ file:///C:/b/abs_4etpfrkumr/croot/urllib3_1707770616184/work
 win-inet-pton @ file:///C:/ci_311/win_inet_pton_1676425458225/work
+zipp==3.18.2
